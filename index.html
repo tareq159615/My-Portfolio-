@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,99 +12,32 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.1.0/tsparticles.bundle.min.js"></script>
-
     <style>
-      /* --- NEW: CSS Variables for Theming --- */
-      :root {
-        --bg-color: #0a192f;
-        --text-primary: #ccd6f6;
-        --text-secondary: #8892b0;
-        --accent-color: #64ffda;
-        --card-bg: #112240;
-        --border-color: #233554;
-      }
-      
-      /* Hero Section Theme (Default) */
-      body.theme-hero {
-        --bg-color: #0a192f;
-        --accent-color: #64ffda;
-        --text-primary: #ccd6f6;
-        --text-secondary: #8892b0;
-      }
-
-      /* About Section Theme */
-      body.theme-about {
-        --bg-color: #1a0f35; /* Deep Purple */
-        --accent-color: #f079d7; /* Pink */
-        --text-primary: #e6e0ff;
-        --text-secondary: #b8a9e0;
-      }
-
-      /* Skills Section Theme */
-      body.theme-skills {
-        --bg-color: #0b2f3a; /* Deep Cyan */
-        --accent-color: #22d3ee; /* Bright Cyan */
-        --text-primary: #d1f5ff;
-        --text-secondary: #a1d6e3;
-      }
-
-      /* Projects Section Theme */
-      body.theme-projects {
-        --bg-color: #382c0f; /* Deep Amber */
-        --accent-color: #f59e0b; /* Amber */
-        --text-primary: #fffbeb;
-        --text-secondary: #e3d9b4;
-      }
-
-      /* Contact Section Theme */
-      body.theme-contact {
-        --bg-color: #310f0f; /* Deep Red */
-        --accent-color: #f472b6; /* Rose Pink */
-        --text-primary: #ffe4e6;
-        --text-secondary: #e3b3bf;
-      }
-
-      /* Apply variables to elements */
       body {
         font-family: "Inter", sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-primary);
-        transition: background-color 0.8s ease;
+        background-color: #0a192f;
+        color: #ccd6f6;
       }
       .font-mono {
         font-family: "Roboto Mono", monospace;
       }
-      .text-slate-200, .section-heading {
-        color: var(--text-primary);
-      }
-      .text-slate-400 {
-        color: var(--text-secondary);
-      }
       .text-accent {
-        color: var(--accent-color);
+        color: #64ffda;
       }
       .bg-navy {
-        background-color: var(--bg-color);
+        background-color: #0a192f;
       }
-      .bg-light-navy, .project-card {
-        background-color: var(--card-bg);
+      .bg-light-navy {
+        background-color: #112240;
       }
       .border-accent {
-        border-color: var(--accent-color);
+        border-color: #64ffda;
       }
       .btn {
-        @apply font-mono border rounded px-4 py-2 transition-all duration-300;
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-      }
-      .btn:hover {
-        background-color: var(--accent-color);
-        color: #0a192f;
+        @apply font-mono text-accent border border-accent rounded px-4 py-2 transition-all duration-300 hover:bg-accent/10;
       }
       .section-heading {
-        @apply text-2xl md:text-3xl font-bold flex items-center;
+        @apply text-2xl md:text-3xl font-bold text-slate-200 flex items-center;
       }
       .section-heading::after {
         content: "";
@@ -114,14 +47,13 @@
         width: 100px;
         height: 1px;
         margin-left: 20px;
-        background-color: var(--border-color);
+        background-color: #233554;
       }
       .project-card {
-        @apply rounded-lg p-6 shadow-xl transition-all duration-300 hover:-translate-y-2;
+        @apply bg-light-navy rounded-lg p-6 shadow-xl transition-all duration-300 hover:-translate-y-2;
       }
       .tech-tag {
-        @apply inline-block bg-teal-400/10 text-xs font-mono px-2 py-1 rounded;
-        color: var(--accent-color);
+        @apply inline-block bg-teal-400/10 text-accent text-xs font-mono px-2 py-1 rounded;
       }
       /* Fade in on scroll animation */
       .fade-in {
@@ -133,46 +65,18 @@
         opacity: 1;
         transform: translateY(0);
       }
-
-      /* --- NEW: tsParticles Background CSS --- */
-      #tsparticles {
-        position: fixed;
+      #matrix-canvas {
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
+        opacity: 0.15;
       }
-      
-      /* Text reveal animation */
-      .text-reveal {
-        overflow: hidden;
-        display: inline-block;
-      }
-      .text-reveal span {
-        display: inline-block;
-        transform: translateY(100%);
-        opacity: 0;
-        animation: textReveal 0.8s forwards;
-      }
-      @keyframes textReveal {
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      
-      /* Stagger animation for multiple elements */
-      .text-reveal-delay-1 span { animation-delay: 0.1s; }
-      .text-reveal-delay-2 span { animation-delay: 0.2s; }
-      .text-reveal-delay-3 span { animation-delay: 0.3s; }
-      .text-reveal-delay-4 span { animation-delay: 0.4s; }
-      .text-reveal-delay-5 span { animation-delay: 0.5s; }
     </style>
   </head>
   <body class="leading-relaxed">
-    <div id="tsparticles"></div>
-
     <header
       id="header"
       class="bg-navy/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-transform duration-300"
@@ -244,35 +148,39 @@
     <main class="container mx-auto px-6">
       <section
         id="hero"
-        data-theme="hero"
         class="min-h-screen flex items-center justify-center text-left relative"
       >
+        <canvas id="matrix-canvas"></canvas>
         <div class="z-10">
           <p
-            class="text-accent font-mono mb-4 text-reveal text-reveal-delay-1"
+            class="text-accent font-mono mb-4 fade-in"
+            style="transition-delay: 100ms"
           >
-            <span>Hi, my name is</span>
+            Hi, my name is
           </p>
           <h1
-            class="text-4xl sm:text-6xl md:text-7xl font-bold text-slate-200 text-reveal text-reveal-delay-2"
+            class="text-4xl sm:text-6xl md:text-7xl font-bold text-slate-200 fade-in"
+            style="transition-delay: 200ms"
           >
-            <span class="text- font-mono mb-4">T</span><span>areq Aziz.</span>
+            <span class="text- font-mono mb-4 fade-in">T</span>areq Aziz.
           </h1>
           <h2
-            class="text-3xl sm:text-5xl md:text-6xl font-bold text-slate-400 mt-2 text-reveal text-reveal-delay-3"
+            class="text-3xl sm:text-5xl md:text-6xl font-bold text-slate-400 mt-2 fade-in"
+            style="transition-delay: 300ms"
           >
-            <span>I build things for the web.</span>
+            I build things for the web.
           </h2>
           <p
-            class="mt-6 max-w-xl text-slate-400 text-reveal text-reveal-delay-4"
+            class="mt-6 max-w-xl text-slate-400 fade-in"
+            style="transition-delay: 400ms"
           >
-            <span>I have built a variety of full-stack and frontend applications
+            I have built a variety of full-stack and frontend applications
             using the MERN stack, React, and Zustand. My projects demonstrate
             not only coding skills, but also the ability to build clean and
             scalable software using SOLID principles and low-level design
-            (LLD).</span>
+            (LLD).
           </p>
-          <div class="mt-8 text-reveal text-reveal-delay-5">
+          <div class="mt-8 fade-in" style="transition-delay: 500ms">
             <a href="#projects" class="btn text-lg px-8 py-4"
               >Check out my projects!</a
             >
@@ -280,7 +188,7 @@
         </div>
       </section>
 
-      <section id="about" data-theme="about" class="py-24 fade-in">
+      <section id="about" class="py-24 fade-in">
         <h2 class="section-heading mb-8">About Me</h2>
         <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
           <div class="md:col-span-3 text-slate-400 space-y-4">
@@ -324,9 +232,9 @@
         </div>
       </section>
 
-      <section id="skills" data-theme="skills" class="py-24 fade-in">
+      <section id="skills" class="py-24 fade-in">
         <h2 class="section-heading mb-8">Skills & Achievements</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="project-card">
             <div class="flex items-center gap-4 mb-4">
               <i data-feather="layout" class="text-accent"></i>
@@ -351,7 +259,7 @@
             </div>
             <p class="text-slate-400">
               Advanced in C++ & TypeScript. Proficient in JavaScript, Python,
-              Java, C#.
+              Java, C, C#.
             </p>
           </div>
           <div class="project-card">
@@ -377,50 +285,68 @@
               Knowledgeable in SOLID principles and various Design Patterns.
             </p>
           </div>
-          
           <div class="project-card">
             <div class="flex items-center gap-4 mb-4">
               <i data-feather="award" class="text-accent"></i>
               <h3 class="text-xl font-bold text-slate-200">Achievements</h3>
             </div>
-            <div class="text-slate-400 space-y-3">
-              <p>Active problem solver on LeetCode, consistently honing my skills in algorithms and data structures.</p>
-              <ul class="list-disc list-inside space-y-1 font-mono text-sm">
-                  <li><span class="font-bold text-slate-200">Problems Solved:</span> 550+</li>
-                  <li><span class="font-bold text-slate-200">Contest Rating:</span> ~1500</li>
-              </ul>
-              <a href="https://leetcode.com/u/tareq741/" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 font-mono text-sm text-accent hover:underline">
-                  View LeetCode Profile &rarr;
-              </a>
+            <div class="text-slate-400 space-y-2">
+              <a href="https://leetcode.com/u/tareq741/"
+                ><img
+                  src="./image/leetcode.png"
+                  alt="LeetCode Stats"
+                  class="h-50% w-50% object-contain hover:scale-105 transition-transform round"
+              /></a>
             </div>
           </div>
-          
-          <div class="project-card md:col-span-2"> <div class="flex items-center gap-4 mb-4">
+          <div class="project-card">
+            <div class="flex items-center gap-4 mb-4">
               <i data-feather="award" class="text-accent"></i>
               <h3 class="text-xl font-bold text-slate-200">Certificates</h3>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href="https://www.freecodecamp.org/certification/tareq_aziz/foundational-c-sharp-with-microsoft" target="_blank" rel="noopener noreferrer" class="block p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50 transition-colors">
-                <img src="/image/c.png" alt="C# Certificate" class="w-full h-auto object-contain rounded-sm" />
+            <div class="flex gap-4">
+              <a
+                href="https://www.freecodecamp.org/certification/tareq_aziz/foundational-c-sharp-with-microsoft"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/image/c.png"
+                  alt="C# Certificate"
+                  class="h-20 w-20 object-contain hover:scale-105 transition-transform"
+                />
               </a>
-              <a href="https://www.hackerrank.com/certificates/iframe/d6b9ec009e54" target="_blank" rel="noopener noreferrer" class="block p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50 transition-colors">
-                <img src="/image/sql_basic certificate.pdf.png" alt="SQL Certificate" class="w-full h-auto object-contain rounded-sm" />
+              <a
+                href="https://www.hackerrank.com/certificates/iframe/d6b9ec009e54"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/image/sql_basic certificate.pdf.png"
+                  alt="SQL Certificate"
+                  class="h-20 w-20 object-contain hover:scale-105 transition-transform"
+                />
               </a>
             </div>
           </div>
         </div>
       </section>
-      <section id="projects" data-theme="projects" class="py-24 fade-in">
+
+      <section id="projects" class="py-24 fade-in">
         <h2 class="section-heading mb-12">Things I've Built</h2>
         <div class="space-y-16">
+          <!-- ....................... -->
           <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-            <div class="h-50 w-50 md:col-span-6 relative group transform transition hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
+            <div class="md:col-span-6 relative group transform transition hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
               <a
                 href="https://mern-project-1-d7sj.onrender.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View Project"
               >
+                <div
+                  class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300"
+                ></div>
                 <img
                   src="/image/w1.png"
                   class="rounded-lg shadow-lg"
@@ -432,7 +358,7 @@
               <p class="font-mono text-accent text-sm">Featured Project</p>
               <h3 class="text-2xl font-bold text-slate-200 mt-1 mb-4">
                 <a
-                  href="https://mern-project-1-d7sj.onrender.com/"
+                  href="https://reliable-vacherin-78a9d8.netlify.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="hover:text-accent transition-colors duration-300"
@@ -472,7 +398,10 @@
               </div>
             </div>
           </div>
-           <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center ">
+          
+           <!-- ....................... -->
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center ">
             <div class="md:col-span-6 md:order-2 relative group transform transition hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
               <a
                 href="https://reliable-vacherin-78a9d8.netlify.app/"
@@ -480,6 +409,9 @@
                 rel="noopener noreferrer"
                 aria-label="View Project"
               >
+                <div
+                  class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300 "
+                > </div>
                 <img
                   src="/image/w2.png"
                   class="rounded-lg shadow-lg"
@@ -528,10 +460,293 @@
               </div>
             </div>
           </div>
+          <!-- ....................... -->
+
+         
+
+          <h3 class="text-center text-2xl font-bold text-slate-200 mt-20">
+            Other Noteworthy Projects
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Project - 1 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/Advance-Task-List-App"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://advance-task-list-app.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://advance-task-list-app.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Advance Task List App</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A modern task management application built with React and
+                Zustand for efficient global state management. Features include
+                adding, deleting, and editing tasks.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>React</span> <span>TypeScript</span> <span>Zustand</span>
+                <span>Tailwind CSS</span>
+              </div>
+            </div>
+            <!-- Project - 2 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/Recipe-App"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://recipe-app-liard-phi.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://recipe-app-liard-phi.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Recipe Book</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A modern recipe book application with dynamic filtering and
+                bookmarking, using Zustand for state management.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>React</span> <span>Zustand</span> <span>Tailwindcss</span>
+              </div>
+            </div>
+            <!-- Project - 3 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/simon_game"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://gamessimon.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://gamessimon.netlify.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Simon Game</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A classic memory game built with vanilla JavaScript to reinforce
+                logic-building skills and DOM manipulation.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>JavaScript</span> <span>CSS</span> <span>HTML</span>
+              </div>
+            </div>
+            <!-- Project - 4 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/My-Project_1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://cerulean-kashata-50763c.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://mern-project-1-d7sj.onrender.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Web app to desktop app in minutes</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A new project of mine when I learn tailwindcss. I learn it from
+                a youtube channel and able to do all updates correctly in it.
+                CLI of tailwindcss doesn't work in my project so I use CDN.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>HTML </span> <span>Tailwindcss</span>
+              </div>
+            </div>
+            <!-- Project - 5 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/Form-Builder-"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://form-builder-5yla.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://form-builder-5yla.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Form Builder</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A dynamic form builder application allowing users to create and
+                manage custom forms, built with React and Zustand.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>React</span> <span>Zustand</span> <span>JavaScript</span>
+              </div>
+            </div>
+            <!-- Project - 6 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/Expense-Tracker"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                  <a
+                    href="https://expense-tracker-iota-three-89.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="External Link"
+                    ><i data-feather="external-link"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://expense-tracker-iota-three-89.vercel.app/"
+                  target="_blank"
+                  class="hover:text-accent transition-colors duration-300"
+                  >Expense Tracker</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                An intuitive app to track income and expenses, helping users
+                manage their finances effectively.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>React</span> <span>Zustand</span> <span>JavaScript</span>
+              </div>
+            </div>
+            <!-- Project - 7 -->
+            <div class="project-card flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                <i data-feather="folder" class="text-accent h-10 w-10"></i>
+                <div class="flex gap-3">
+                  <a
+                    href="https://github.com/tareq159615/LLD"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-accent transition-colors duration-300"
+                    aria-label="GitHub Link"
+                    ><i data-feather="github"></i
+                  ></a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold text-slate-200 mb-2">
+                <a
+                  href="https://github.com/tareq159615/LLD"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent transition-colors duration-300"
+                  >LLD Projects</a
+                >
+              </h4>
+              <p class="text-slate-400 mb-4 flex-grow">
+                A repository of multiple Low-Level Design pattern
+                implementations with clean code and SOLID principles.
+              </p>
+              <div class="font-mono text-xs text-slate-400">
+                <span>C++</span> <span>Java</span> <span>System Design</span>
+              </div>
+            </div>
           </div>
+        </div>
       </section>
 
-      <section id="contact" data-theme="contact" class="py-24 text-center fade-in">
+      <section id="contact" class="py-24 text-center fade-in">
         <p class="font-mono text-accent mb-2">04. What's Next?</p>
         <h2 class="text-4xl md:text-5xl font-bold text-slate-200 mb-4">
           Get In Touch
@@ -601,25 +816,6 @@
       // Initialize Feather Icons
       feather.replace();
 
-      // Initialize Lenis Smooth Scroll
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      });
-
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          lenis.scrollTo(this.getAttribute('href'));
-        });
-      });
-
       // Mobile Menu Toggle
       const mobileMenuButton = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
@@ -630,108 +826,96 @@
       // Hide header on scroll down, show on scroll up
       let lastScrollTop = 0;
       const header = document.getElementById("header");
-      lenis.on('scroll', ({ scroll }) => {
-        if (scroll > lastScrollTop && scroll > 100) {
-          header.style.transform = "translateY(-100%)";
-        } else {
-          header.style.transform = "translateY(0)";
-        }
-        lastScrollTop = scroll <= 0 ? 0 : scroll;
-      });
+      window.addEventListener(
+        "scroll",
+        function () {
+          let scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          if (scrollTop > lastScrollTop) {
+            // Downscroll
+            header.style.transform = "translateY(-100%)";
+          } else {
+            // Upscroll
+            header.style.transform = "translateY(0)";
+          }
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        },
+        false
+      );
 
       // Intersection Observer for fade-in animations
       const faders = document.querySelectorAll(".fade-in");
-      const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 };
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      };
+
       const appearOnScroll = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+          if (!entry.isIntersecting) {
+            return;
+          }
           entry.target.classList.add("visible");
           observer.unobserve(entry.target);
         });
       }, observerOptions);
+
       faders.forEach((fader) => {
         appearOnScroll.observe(fader);
       });
 
-      // --- NEW: tsParticles and Theme Change Logic ---
+      // Matrix rain effect
+      const canvas = document.getElementById("matrix-canvas");
+      const ctx = canvas.getContext("2d");
 
-      // Initialize tsParticles
-      window.addEventListener('load', () => {
-        tsParticles.load({
-          id: "tsparticles",
-          options: {
-            background: { color: { value: "transparent" } },
-            fpsLimit: 60,
-            interactivity: {
-              events: {
-                onHover: { enable: true, mode: "grab" },
-                onClick: { enable: true, mode: "push" },
-              },
-              modes: {
-                grab: { distance: 140, links: { opacity: 1 } },
-                push: { quantity: 4 },
-              },
-            },
-            particles: {
-              color: { value: "#64ffda" }, // Initial color
-              links: {
-                color: { value: "#ffffff" },
-                distance: 150,
-                enable: true,
-                opacity: 0.2,
-                width: 1,
-              },
-              move: {
-                direction: "none",
-                enable: true,
-                outModes: { default: "bounce" },
-                random: false,
-                speed: 1,
-                straight: false,
-              },
-              number: { density: { enable: true }, value: 80 },
-              opacity: { value: 0.3 },
-              shape: { type: "circle" },
-              size: { value: { min: 1, max: 5 } },
-            },
-            detectRetina: true,
-          },
-        });
-      });
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-      // Intersection Observer for Theme Change (Updated)
-      const sections = document.querySelectorAll("section[data-theme]");
-      const body = document.body;
-      body.classList.add('theme-hero'); // Set initial theme
+      let katakana =
+        "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
+      let latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let nums = "0123456789";
+      let alphabet = katakana + latin + nums;
 
-      const themeColors = {
-        hero: '#64ffda',
-        about: '#f079d7',
-        skills: '#22d3ee',
-        projects: '#f59e0b',
-        contact: '#f472b6'
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+
+      const rainDrops = [];
+
+      for (let x = 0; x < columns; x++) {
+        rainDrops[x] = 1;
+      }
+
+      const draw = () => {
+        ctx.fillStyle = "rgba(10, 25, 47, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#64ffda";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < rainDrops.length; i++) {
+          const text = alphabet.charAt(
+            Math.floor(Math.random() * alphabet.length)
+          );
+          ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+          if (
+            rainDrops[i] * fontSize > canvas.height &&
+            Math.random() > 0.975
+          ) {
+            rainDrops[i] = 0;
+          }
+          rainDrops[i]++;
+        }
       };
 
-      const themeObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  const themeName = entry.target.getAttribute('data-theme');
-                  // Use a general class removal approach if needed
-                  body.className = `leading-relaxed theme-${themeName}`;
-                  
-                  const particlesInstance = tsParticles.domItem(0);
-                  if (particlesInstance) {
-                      particlesInstance.options.particles.color.value = themeColors[themeName];
-                      particlesInstance.refresh();
-                  }
-              }
-          });
-      }, { threshold: 0.4 });
+      setInterval(draw, 30);
 
-      sections.forEach(section => {
-          themeObserver.observe(section);
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       });
-
     </script>
   </body>
 </html>
