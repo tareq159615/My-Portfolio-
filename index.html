@@ -34,10 +34,20 @@
         border-color: #64ffda;
       }
       .btn {
-        @apply font-mono text-accent border border-accent rounded px-4 py-2 transition-all duration-300 hover:bg-accent/10;
+        display: inline-block;
+        font-family: "Roboto Mono", monospace;
+        color: #64ffda;
+        border: 1px solid #64ffda;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s;
       }
       .section-heading {
-        @apply text-2xl md:text-3xl font-bold text-slate-200 flex items-center;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        color: #e2e8f0;
+        font-size: clamp(1.5rem, 4vw, 1.875rem);
       }
       .section-heading::after {
         content: "";
@@ -50,20 +60,200 @@
         background-color: #233554;
       }
       .project-card {
-        @apply bg-light-navy rounded-lg p-6 shadow-xl transition-all duration-300 hover:-translate-y-2;
+        background-color: #112240;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
       }
       .tech-tag {
-        @apply inline-block bg-teal-400/10 text-accent text-xs font-mono px-2 py-1 rounded;
+        display: inline-block;
+        background-color: rgba(45, 212, 191, 0.1);
+        color: #64ffda;
+        font-size: 0.75rem;
+        font-family: "Roboto Mono", monospace;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+      }
+      /* ---------- Responsive helpers ---------- */
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      section[id] {
+        scroll-margin-top: 4rem;
+      }
+      .btn:hover {
+        background-color: rgba(100, 255, 218, 0.1);
+      }
+      .project-card:hover {
+        transform: translateY(-8px);
+      }
+      .section-heading::after {
+        flex: 1;
+        width: auto;
+        max-width: 300px;
+        min-width: 40px;
+      }
+      #projects img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      @media (hover: none) {
+        .project-card:hover {
+          transform: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .project-card {
+          padding: 1.25rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .fade-in {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+      /* ---------- 3D effects ---------- */
+      .tilt {
+        position: relative;
+        transform-style: preserve-3d;
+      }
+      .tilt.is-tilting {
+        will-change: transform;
+        transition: transform 0.1s ease-out, box-shadow 0.3s;
+      }
+      .tilt::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+        z-index: 5;
+        background: radial-gradient(
+          circle at var(--mx, 50%) var(--my, 50%),
+          rgba(255, 255, 255, 0.14),
+          transparent 55%
+        );
+        transition: opacity 0.3s;
+      }
+      .tilt.is-tilting::before {
+        opacity: 1;
+      }
+      .tilt h3,
+      .tilt h4,
+      .tilt svg {
+        transform: translateZ(24px);
+      }
+      .project-card {
+        border: 1px solid rgba(100, 255, 218, 0.08);
+      }
+      .project-card:hover {
+        box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.6),
+          0 0 25px rgba(100, 255, 218, 0.12);
+      }
+      .btn {
+        box-shadow: 3px 3px 0 rgba(100, 255, 218, 0.25);
+      }
+      .btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 rgba(100, 255, 218, 0.35),
+          0 10px 20px rgba(0, 0, 0, 0.3);
+        background-color: rgba(100, 255, 218, 0.1);
+      }
+      .btn:active {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 rgba(100, 255, 218, 0.25);
+      }
+      .hero-title {
+        text-shadow: 1px 1px 0 #0a192f, 2px 2px 0 rgba(100, 255, 218, 0.35),
+          3px 3px 0 rgba(100, 255, 218, 0.2), 5px 6px 14px rgba(0, 0, 0, 0.55);
+      }
+      /* Rotating tech cube in the hero (large screens only) */
+      .hero-3d {
+        position: absolute;
+        right: 4%;
+        top: 50%;
+        width: 220px;
+        height: 220px;
+        margin-top: -110px;
+        perspective: 900px;
+        pointer-events: none;
+        z-index: 5;
+      }
+      .hero-scene {
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.25s ease-out;
+      }
+      .cube {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        animation: cube-spin 24s linear infinite;
+      }
+      .cube .face {
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #64ffda;
+        border: 2px solid rgba(100, 255, 218, 0.7);
+        background: rgba(100, 255, 218, 0.06);
+        box-shadow: inset 0 0 30px rgba(100, 255, 218, 0.15),
+          0 0 20px rgba(100, 255, 218, 0.15);
+      }
+      .f-front { transform: translateZ(110px); }
+      .f-back { transform: rotateY(180deg) translateZ(110px); }
+      .f-right { transform: rotateY(90deg) translateZ(110px); }
+      .f-left { transform: rotateY(-90deg) translateZ(110px); }
+      .f-top { transform: rotateX(90deg) translateZ(110px); }
+      .f-bottom { transform: rotateX(-90deg) translateZ(110px); }
+      @keyframes cube-spin {
+        from { transform: rotateX(-20deg) rotateY(0deg); }
+        to { transform: rotateX(340deg) rotateY(360deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cube { animation: none; transform: rotateX(-20deg) rotateY(30deg); }
+      }
+      /* Cube on phones and tablets: smaller, top-right corner */
+      @media (max-width: 1279px) {
+        .hero-3d {
+          top: 5.5rem;
+          right: 0.75rem;
+          margin-top: 0;
+          transform: scale(0.45);
+          transform-origin: top right;
+          opacity: 0.7;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 1279px) {
+        .hero-3d {
+          top: 6rem;
+          right: 1.5rem;
+          transform: scale(0.65);
+        }
       }
       /* Fade in on scroll animation */
       .fade-in {
         opacity: 0;
-        transform: translateY(20px);
+        transform: perspective(800px) translateY(30px) rotateX(-10deg);
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       }
       .fade-in.visible {
         opacity: 1;
-        transform: translateY(0);
+        transform: perspective(800px) translateY(0) rotateX(0deg);
       }
       #matrix-canvas {
         position: absolute;
@@ -73,6 +263,7 @@
         height: 100%;
         z-index: -1;
         opacity: 0.15;
+        pointer-events: none;
       }
     </style>
   </head>
@@ -82,7 +273,7 @@
       class="bg-navy/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-transform duration-300"
     >
       <nav
-        class="container mx-auto px-6 py-4 flex justify-between items-center"
+        class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center"
       >
         <a href="#" class="text-2xl font-bold font-mono text-accent">TA</a>
         <div class="hidden md:flex items-center space-x-6">
@@ -110,12 +301,14 @@
         </div>
         <button
           id="mobile-menu-button"
+          aria-label="Toggle menu"
+          aria-expanded="false"
           class="md:hidden block focus:outline-none"
         >
           <i data-feather="menu" class="text-accent h-6 w-6"></i>
         </button>
       </nav>
-      <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+      <div id="mobile-menu" class="hidden md:hidden px-4 sm:px-6 pb-4">
         <a
           href="#about"
           class="block py-2 font-mono text-center hover:text-accent transition-colors duration-300"
@@ -145,12 +338,24 @@
       </div>
     </header>
 
-    <main class="container mx-auto px-6">
+    <main class="container mx-auto px-4 sm:px-6">
       <section
         id="hero"
-        class="min-h-screen flex items-center justify-center text-left relative"
+        class="min-h-screen pt-24 pb-12 flex items-center justify-center text-left relative"
       >
         <canvas id="matrix-canvas"></canvas>
+        <div class="hero-3d" aria-hidden="true">
+          <div id="hero-scene" class="hero-scene">
+            <div class="cube">
+              <div class="face f-front">React</div>
+              <div class="face f-back">Node</div>
+              <div class="face f-right">JS</div>
+              <div class="face f-left">Mongo</div>
+              <div class="face f-top">TS</div>
+              <div class="face f-bottom">C++</div>
+            </div>
+          </div>
+        </div>
         <div class="z-10">
           <p
             class="text-accent font-mono mb-4 fade-in"
@@ -159,13 +364,13 @@
             Hi, my name is
           </p>
           <h1
-            class="text-4xl sm:text-6xl md:text-7xl font-bold text-slate-200 fade-in"
+            class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 fade-in"
             style="transition-delay: 200ms"
           >
             <span class="text- font-mono mb-4 fade-in">T</span>areq Aziz.
           </h1>
           <h2
-            class="text-3xl sm:text-5xl md:text-6xl font-bold text-slate-400 mt-2 fade-in"
+            class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-400 mt-2 fade-in"
             style="transition-delay: 300ms"
           >
             I build things for the web.
@@ -180,16 +385,16 @@
             software using SOLID principles and low-level design (LLD).
           </p>
           <div class="mt-8 fade-in" style="transition-delay: 500ms">
-            <a href="#projects" class="btn text-lg px-8 py-4"
+            <a href="#projects" class="btn text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-4"
               >Check out my projects!</a
             >
           </div>
         </div>
       </section>
 
-      <section id="about" class="py-24 fade-in">
+      <section id="about" class="py-16 md:py-24 fade-in">
         <h2 class="section-heading mb-8">About Me</h2>
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
           <div class="md:col-span-3 text-slate-400 space-y-4">
             <p>
               Hello! I'm Tareq, a developer based in Dhaka, Bangladesh. My
@@ -214,12 +419,12 @@
             </p>
           </div>
           <div class="md:col-span-2 flex justify-center items-start">
-            <div class="w-64 h-64 rounded-lg bg-light-navy relative group">
+            <div class="w-56 h-56 sm:w-64 sm:h-64 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-lg bg-light-navy relative group">
               <div
                 class="absolute inset-0 bg-accent/20 rounded-lg group-hover:bg-transparent transition-all duration-300"
               ></div>
               <img
-                src="/image/myImg.JPG"
+                src="./image/myImg.JPG"
                 alt="Tareq Aziz"
                 class="w-full h-full object-cover rounded-lg"
               />
@@ -231,7 +436,7 @@
         </div>
       </section>
 
-      <section id="skills" class="py-24 fade-in">
+      <section id="skills" class="py-16 md:py-24 fade-in">
         <h2 class="section-heading mb-8">Skills & Achievements</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="project-card">
@@ -294,7 +499,7 @@
                 ><img
                   src="./image/leetcode.png"
                   alt="LeetCode Stats"
-                  class="h-50% w-50% object-contain hover:scale-105 transition-transform round"
+                  class="w-full max-w-xs h-auto object-contain rounded hover:scale-105 transition-transform"
               /></a>
             </div>
           </div>
@@ -303,14 +508,14 @@
               <i data-feather="award" class="text-accent"></i>
               <h3 class="text-xl font-bold text-slate-200">Certificates</h3>
             </div>
-            <div class="flex gap-4">
+            <div class="flex flex-wrap gap-4">
               <a
                 href="https://www.freecodecamp.org/certification/tareq_aziz/foundational-c-sharp-with-microsoft"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
-                  src="/image/c.png"
+                  src="./image/c.png"
                   alt="C# Certificate"
                   class="h-20 w-20 object-contain hover:scale-105 transition-transform"
                 />
@@ -321,7 +526,7 @@
                 rel="noopener noreferrer"
               >
                 <img
-                  src="/image/sql_basic certificate.pdf.png"
+                  src="./image/sql_basic certificate.pdf.png"
                   alt="SQL Certificate"
                   class="h-20 w-20 object-contain hover:scale-105 transition-transform"
                 />
@@ -331,9 +536,9 @@
         </div>
       </section>
 
-      <section id="projects" class="py-24 fade-in">
+      <section id="projects" class="py-16 md:py-24 fade-in">
         <h2 class="section-heading mb-12">Things I've Built</h2>
-        <div class="space-y-16">
+        <div class="space-y-12 md:space-y-16">
           <!-- ....................... -->
           <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             <div
@@ -349,7 +554,7 @@
                   class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300"
                 ></div>
                 <img
-                  src="/image/w4.png"
+                  src="./image/w4.png" loading="lazy"
                   class="rounded-lg shadow-lg"
                   alt="MERN Full Stack Simple Project"
                 />
@@ -373,7 +578,7 @@
                 </p>
               </div>
               <div
-                class="flex gap-4 font-mono text-slate-400 text-sm mt-4 md:justify-end"
+                class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-slate-400 text-sm mt-4 md:justify-end"
               >
                 <span>React</span> <span>Tailwind CSS</span> <span>Node.js</span> <span>Express</span>
                 <span>MongoDB</span><span>Express.js</span> 
@@ -413,7 +618,7 @@
                   class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300"
                 ></div>
                 <img
-                  src="/image/VA.png"
+                  src="./image/VA.png" loading="lazy"
                   class="rounded-lg shadow-lg"
                   alt="AI Virtual Assistant (MERN Stack)"
                 />
@@ -441,7 +646,7 @@
                   mobile-responsive application on Render.
                 </p>
               </div>
-              <div class="flex gap-4 font-mono text-slate-400 text-sm mt-4">
+              <div class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-slate-400 text-sm mt-4">
                 <span>React</span> <span>Tailwind</span> <span>JavaScript</span>
               </div>
               <div class="flex gap-4 mt-4">
@@ -481,7 +686,7 @@
                   class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300"
                 ></div>
                 <img
-                  src="/image/w1.png"
+                  src="./image/w1.png" loading="lazy"
                   class="rounded-lg shadow-lg"
                   alt="MERN Full Stack Simple Project"
                 />
@@ -506,7 +711,7 @@
                 </p>
               </div>
               <div
-                class="flex gap-4 font-mono text-slate-400 text-sm mt-4 md:justify-end"
+                class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-slate-400 text-sm mt-4 md:justify-end"
               >
                 <span>React</span> <span>Node.js</span> <span>Express</span>
                 <span>MongoDB</span>
@@ -548,7 +753,7 @@
                   class="absolute inset-0 bg-navy/70 rounded-lg group-hover:bg-transparent transition-all duration-300"
                 ></div>
                 <img
-                  src="/image/w2.png"
+                  src="./image/w2.png" loading="lazy"
                   class="rounded-lg shadow-lg"
                   alt="Advance Task List App"
                 />
@@ -572,7 +777,7 @@
                   the latest React features.
                 </p>
               </div>
-              <div class="flex gap-4 font-mono text-slate-400 text-sm mt-4">
+              <div class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-slate-400 text-sm mt-4">
                 <span>React</span> <span>Tailwind</span> <span>JavaScript</span>
               </div>
               <div class="flex gap-4 mt-4">
@@ -879,7 +1084,7 @@
         </div>
       </section>
 
-      <section id="contact" class="py-24 text-center fade-in">
+      <section id="contact" class="py-16 md:py-24 text-center fade-in">
         <p class="font-mono text-accent mb-2">04. What's Next?</p>
         <h2 class="text-4xl md:text-5xl font-bold text-slate-200 mb-4">
           Get In Touch
@@ -891,7 +1096,7 @@
         </p>
         <a
           href="mailto:tareq01829711741@gmail.com"
-          class="btn text-lg px-8 py-4"
+          class="btn text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-4"
           >Say Hello</a
         >
       </section>
@@ -954,6 +1159,21 @@
       const mobileMenu = document.getElementById("mobile-menu");
       mobileMenuButton.addEventListener("click", () => {
         mobileMenu.classList.toggle("hidden");
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          String(!mobileMenu.classList.contains("hidden"))
+        );
+      });
+      // Close the menu after tapping a link
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+        });
+      });
+      // Close the menu when resizing up to desktop
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) mobileMenu.classList.add("hidden");
       });
 
       // Hide header on scroll down, show on scroll up
@@ -964,7 +1184,10 @@
         function () {
           let scrollTop =
             window.pageYOffset || document.documentElement.scrollTop;
-          if (scrollTop > lastScrollTop) {
+          if (
+            scrollTop > lastScrollTop &&
+            mobileMenu.classList.contains("hidden")
+          ) {
             // Downscroll
             header.style.transform = "translateY(-100%)";
           } else {
@@ -997,6 +1220,87 @@
       faders.forEach((fader) => {
         appearOnScroll.observe(fader);
       });
+
+      // 3D tilt effect (mouse devices only, skipped for reduced motion)
+      const canTilt = !window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches;
+      if (canTilt) {
+        document
+          .querySelectorAll(".project-card, #projects .group, #about .group")
+          .forEach((el) => {
+            el.classList.add("tilt");
+            const max = el.classList.contains("project-card") ? 8 : 6;
+            el.addEventListener("mousemove", (e) => {
+              const r = el.getBoundingClientRect();
+              const x = (e.clientX - r.left) / r.width;
+              const y = (e.clientY - r.top) / r.height;
+              el.classList.add("is-tilting");
+              el.style.setProperty("--mx", x * 100 + "%");
+              el.style.setProperty("--my", y * 100 + "%");
+              el.style.transform = `perspective(900px) rotateX(${
+                (0.5 - y) * max * 2
+              }deg) rotateY(${
+                (x - 0.5) * max * 2
+              }deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
+            });
+            // Touch screens: tilt follows your finger
+            const touchTilt = (e) => {
+              const t = e.touches[0];
+              const r = el.getBoundingClientRect();
+              const x = Math.min(Math.max((t.clientX - r.left) / r.width, 0), 1);
+              const y = Math.min(Math.max((t.clientY - r.top) / r.height, 0), 1);
+              el.classList.add("is-tilting");
+              el.style.setProperty("--mx", x * 100 + "%");
+              el.style.setProperty("--my", y * 100 + "%");
+              el.style.transform = `perspective(900px) rotateX(${
+                (0.5 - y) * max * 2
+              }deg) rotateY(${
+                (x - 0.5) * max * 2
+              }deg) scale3d(1.02, 1.02, 1.02)`;
+            };
+            const endTilt = () => {
+              el.classList.remove("is-tilting");
+              el.style.transform = "";
+            };
+            el.addEventListener("touchstart", touchTilt, { passive: true });
+            el.addEventListener("touchmove", touchTilt, { passive: true });
+            el.addEventListener("touchend", endTilt);
+            el.addEventListener("touchcancel", endTilt);
+            el.addEventListener("mouseleave", () => {
+              el.classList.remove("is-tilting");
+              el.style.transform = "";
+            });
+          });
+
+        // Hero cube follows the cursor
+        const heroScene = document.getElementById("hero-scene");
+        if (heroScene) {
+          window.addEventListener("mousemove", (e) => {
+            const rx = (e.clientY / window.innerHeight - 0.5) * -30;
+            const ry = (e.clientX / window.innerWidth - 0.5) * 40;
+            heroScene.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+          });
+        }
+      }
+
+      // On touch screens the hero cube spins as you scroll
+      const sceneEl = document.getElementById("hero-scene");
+      if (
+        sceneEl &&
+        !window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        window.addEventListener(
+          "scroll",
+          () => {
+            const y = window.scrollY;
+            sceneEl.style.transform = `rotateX(${y * 0.15}deg) rotateY(${
+              y * 0.25
+            }deg)`;
+          },
+          { passive: true }
+        );
+      }
 
       // Matrix rain effect
       const canvas = document.getElementById("matrix-canvas");
@@ -1043,11 +1347,16 @@
         }
       };
 
-      setInterval(draw, 30);
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setInterval(draw, 30);
+      }
 
       window.addEventListener("resize", () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        for (let x = rainDrops.length; x < canvas.width / fontSize; x++) {
+          rainDrops[x] = 1;
+        }
       });
     </script>
   </body>
