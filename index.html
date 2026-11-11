@@ -253,7 +253,7 @@
       }
       .fade-in.visible {
         opacity: 1;
-        transform: perspective(800px) translateY(0) rotateX(0deg);
+        transform: none;
       }
       #matrix-canvas {
         position: absolute;
@@ -1200,11 +1200,22 @@
       );
 
       // Intersection Observer for fade-in animations
+      // Projects: animate each project on its own. The whole section is so
+      // tall on phones that it never reached the visibility threshold,
+      // which left many projects hidden.
+      const projectsEl = document.getElementById("projects");
+      if (projectsEl) {
+        projectsEl.classList.remove("fade-in");
+        projectsEl
+          .querySelectorAll(".project-card, .grid.items-center")
+          .forEach((el) => el.classList.add("fade-in"));
+      }
+
       const faders = document.querySelectorAll(".fade-in");
       const observerOptions = {
         root: null,
-        rootMargin: "0px",
-        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
+        threshold: 0,
       };
 
       const appearOnScroll = new IntersectionObserver((entries, observer) => {
